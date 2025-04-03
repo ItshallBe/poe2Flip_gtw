@@ -1,16 +1,18 @@
-import { Controller, Post, Headers } from '@nestjs/common';
+import { Controller, Post, Headers, Body } from '@nestjs/common';
 import { FlipQueryCurrencyService } from '../services/flip-query-currency.service';
-import { FlipQueryHistoryEquipmentService } from '../services/flip-query-history-equipment.service';
+import { FlipOnlService } from '../services/flip-onl.service';
 
 @Controller('flip')
 export class FlipController {
   @Post('api')
-  async handleFlip(@Headers('bizMethod') bizMethod: string) {
+  async handleFlip(@Headers('bizMethod') bizMethod: string, @Body() body: any) {
     switch (bizMethod) {
       case 'flip.query.currency':
         return await FlipQueryCurrencyService.fetchMarketData();
       case 'flip.query.historyEquipment':
-        return await FlipQueryHistoryEquipmentService.fetchHistoryData();
+      case 'flip.save.currency':
+      case 'flip.get.history.currency':
+        return await FlipOnlService.fetchData(bizMethod, body);
       default:
         return { message: 'Unknown bizMethod' };
     }
