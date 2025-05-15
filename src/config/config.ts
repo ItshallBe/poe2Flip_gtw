@@ -1,5 +1,17 @@
 export const ONL_CONFIG = {
   url: 'http://47.117.46.26:3000',
+  proxy_urls: [
+    'https://poe2flip.poe2flip-proxy.workers.dev',
+    'https://1304698797-5zhnvx5dsm.ap-shanghai.tencentscf.com',
+    'https://1304698797-2eqgfz25o3.ap-hongkong.tencentscf.com',
+    'https://1304698797-gqqolsszn8.ap-beijing.tencentscf.com',
+    'https://1304698797-jg72xziz5f.ap-guangzhou.tencentscf.com',
+    'https://1304698797-0of6r7cxe8.ap-chengdu.tencentscf.com',
+    'https://1304698797-11gvl9ocrh.ap-nanjing.tencentscf.com',
+    'https://1304698797-csoq4112r9.ap-tokyo.tencentscf.com',
+    'https://1304698797-beycwwerbc.ap-seoul.tencentscf.com',
+    'https://1304698797-enve5w6uq9.ap-singapore.tencentscf.com',
+  ],
   'flip.save.currency': '/currencyExchange/add',
   'flip.get.history.currency': '/currencyExchange/queryHistory',
   'flip.query.historyEquipment': '/tradeHistory/search',
