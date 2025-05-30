@@ -16,6 +16,7 @@ export class FlipController {
         return await FlipOnlService.fetchData(bizMethod, body);
       case 'flip.proxy.fetch':
       case 'flip.proxy.search':
+      case 'flip.proxy.search.Standard':
         return await FlipMarketProxyService.fetchData(bizMethod, body);
       default:
         return { message: 'Unknown bizMethod' };
