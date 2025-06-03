@@ -15,4 +15,6 @@ export const ONL_CONFIG = {
   'flip.save.currency': '/currencyExchange/add',
   'flip.get.history.currency': '/currencyExchange/queryHistory',
   'flip.query.historyEquipment': '/tradeHistory/search',
+  'flip.get.builds': '/builds/query',
+  'flip.save.feedback': '/feedback/add',
 }

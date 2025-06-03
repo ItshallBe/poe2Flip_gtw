@@ -13,6 +13,8 @@ export class FlipController {
       case 'flip.query.historyEquipment':
       case 'flip.save.currency':
       case 'flip.get.history.currency':
+      case 'flip.get.builds':
+      case 'flip.save.feedback':
         return await FlipOnlService.fetchData(bizMethod, body);
       case 'flip.proxy.fetch':
       case 'flip.proxy.search':
