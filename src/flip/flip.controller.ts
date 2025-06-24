@@ -9,7 +9,7 @@ export class FlipController {
   async handleFlip(@Headers('bizMethod') bizMethod: string, @Body() body: any) {
     switch (bizMethod) {
       case 'flip.query.currency':
-        return await FlipQueryCurrencyService.fetchMarketData();
+        return await FlipQueryCurrencyService.fetchMarketData(body);
       case 'flip.query.historyEquipment':
       case 'flip.save.currency':
       case 'flip.get.history.currency':
