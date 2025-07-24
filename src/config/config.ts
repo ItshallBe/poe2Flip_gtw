@@ -17,4 +17,5 @@ export const ONL_CONFIG = {
   'flip.query.historyEquipment': '/tradeHistory/search',
   'flip.get.builds': '/builds/query',
   'flip.save.feedback': '/feedback/add',
+  'flip.query.top100': '/tradeCurrent/queryTop100',
 }

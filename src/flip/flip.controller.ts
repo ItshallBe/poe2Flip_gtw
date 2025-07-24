@@ -14,6 +14,7 @@ export class FlipController {
       case 'flip.save.currency':
       case 'flip.get.history.currency':
       case 'flip.get.builds':
+      case 'flip.query.top100':
       case 'flip.save.feedback':
         return await FlipOnlService.fetchData(bizMethod, body);
       case 'flip.proxy.fetch':
