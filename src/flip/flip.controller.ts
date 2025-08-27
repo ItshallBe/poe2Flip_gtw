@@ -6,7 +6,7 @@ import { FlipMarketProxyService } from '../services/flip-market-proxy.service';
 @Controller('flip')
 export class FlipController {
   @Post('api')
-  async handleFlip(@Headers('bizMethod') bizMethod: string, @Body() body: any) {
+  async handleFlip(@Headers('bizMethod') bizMethod: string, @Headers('requesturl') requestUrl: string, @Body() body: any) {
     switch (bizMethod) {
       case 'flip.query.currency':
         return await FlipQueryCurrencyService.fetchMarketData(body);
@@ -20,7 +20,7 @@ export class FlipController {
       case 'flip.proxy.fetch':
       case 'flip.proxy.search':
       case 'flip.proxy.search.Standard':
-        return await FlipMarketProxyService.fetchData(bizMethod, body);
+        return await FlipMarketProxyService.fetchData(bizMethod, requestUrl, body);
       default:
         return { message: 'Unknown bizMethod' };
     }
