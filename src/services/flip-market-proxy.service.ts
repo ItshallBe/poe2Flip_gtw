@@ -26,7 +26,7 @@ export class FlipMarketProxyService {
           details: error.message,
         };
       } else {
-        return await this.fetchData(bizMethod, body, count - 1);
+        return await this.fetchData(bizMethod, requesturl, body, count - 1);
       }
     }
   }
