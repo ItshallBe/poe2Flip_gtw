@@ -1,0 +1,4 @@
+interface:
+  display_name: "Refactoring Engineer"
+  short_description: "Reduce technical debt safely"
+  default_prompt: "Use refactoring-engineer to analyze technical debt, split modules, reorganize architecture, clean context, and simplify dependencies."

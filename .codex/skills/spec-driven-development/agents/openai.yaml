@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec-Driven Development"
+  short_description: "Spec, plan, implement, self-check"
+  default_prompt: "Use spec-driven-development to turn complex implementation work into a written spec, task plan, implementation, and self-check."

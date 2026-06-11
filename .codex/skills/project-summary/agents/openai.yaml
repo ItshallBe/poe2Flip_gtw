@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Summary"
+  short_description: "Keep PRD project summary current"
+  default_prompt: "Use project-summary when the user says to summarize the project, or after completing a single change, to update PRD/project-summary.md for future conversation handoff."

@@ -1,0 +1,325 @@
+# AGENTS.md
+
+This repository is a Next.js App Router native AI application starter. Agents should use this file as the default operating protocol. Users should not need to name individual skills during normal work.
+
+## Project Baseline
+
+- Framework: Next.js App Router.
+- Language: TypeScript strict mode.
+- Styling: Tailwind CSS v4, with theme tokens in `app/globals.css`.
+- UI: shadcn-style source components under `components/ui`.
+- Remote client state: TanStack React Query.
+- Local client state: Jotai.
+- Backend storage: PostgreSQL when persistent server-side data is required.
+- AI boundary: provider, tool, context, memory, and orchestration code live under `lib/ai`.
+- Runtime: API routes that access model providers, databases, or filesystem resources default to Node.js runtime.
+
+## Default Skill Routing
+
+Route by user intent automatically. Do not require the user to specify skill names.
+
+- Product iteration, requirements, product plans, user stories, acceptance criteria: use `prd-development`.
+- UI design, design system, visual direction, interaction design, UX review: use `ui-ux-pro-max`.
+- Next.js page implementation, routes, RSC boundaries, metadata, route handlers, server actions, data fetching: use `next-best-practices`.
+- Frontend module splitting, component boundaries, React Query/Jotai state, file structure: use `frontend-architecture`.
+- Multi-file feature implementation, API/state/architecture changes, complex coding work: use `spec-driven-development`.
+- Refactoring, file splitting, duplicate logic cleanup, boundary repair, technical debt: use `refactoring-engineer`.
+- PostgreSQL database creation, schema design, migrations, server-side storage wiring, database-backed CRUD: use `postgresql-backend-storage`.
+- GitHub Actions deployment to ordinary SSH servers, repository/environment secrets, deploy keys, server IP/port/user/path setup, tag-triggered release workflows, commit-and-tag iterative deployments: use `github-cicd-deployment`.
+- CI/CD, Cloudflare Workers deployment, Wrangler, OpenNext deployment config, preview/deploy failures: use `cloudflare-cicd-deployment`.
+- Project summary, repository handoff context, new-chat bootstrap, or post-change context maintenance: use `project-summary`.
+
+When a request spans multiple stages, execute in this order:
+
+```txt
+PRD -> UI -> page implementation -> coding/architecture -> backend storage when persistence is required -> deployment when release flow changes -> project summary
+```
+
+If storage is required by the PRD, UI flow, implementation plan, or user request, evaluate database readiness before coding write paths.
+
+After any meaningful product, code, architecture, database, AI, skill, PRD, UI, environment, or configuration change, update `PRD/project-summary.md` using `project-summary`.
+
+## Mandatory Confirmation Gates
+
+These stages require explicit user confirmation before writing files or continuing:
+
+- PRD stage: before using `prd-development`, confirm feature scope, target users, output directory name, and planned PRD file.
+- UI design stage: before using `ui-ux-pro-max`, confirm the source PRD, design goal, page/screen scope, and planned UI file.
+- PostgreSQL creation/schema stage: before creating a database, schema, table, migration, or connecting with credentials, confirm missing database connection details and storage requirements.
+- GitHub CI/CD stage: before logging into a server, creating SSH keys, modifying `authorized_keys`, creating repository/environment secrets, writing deployment workflows, committing release changes, creating tags, or pushing tags, confirm the remote, branch, target server, target environment, secret names, tag, and deployment action.
+- Production deployment stage: before deploying to Cloudflare production or changing production secrets/domains, confirm the target account, environment, worker name, and deployment action.
+
+Confirmation must be a clear yes/no request. Without explicit confirmation:
+
+- Do not generate `PRD.md`.
+- Do not generate `UI.md`.
+- Do not create or mutate PostgreSQL databases, schemas, tables, or migrations.
+- Do not login to deployment servers, create SSH keys, modify `authorized_keys`, create GitHub secrets, write deployment workflows, commit release changes, create tags, or push tags.
+- Do not deploy to Cloudflare production or mutate production deployment settings.
+- Do not proceed to the next stage.
+
+After generating a PRD, stop unless the user explicitly asks to continue to UI design. After generating UI, stop unless the user explicitly asks to continue to implementation.
+
+## PRD Directory Protocol
+
+All product iteration artifacts live under root `PRD/`. Each feature gets one directory:
+
+```txt
+PRD/
+  <feature-slug>/
+    PRD.md
+    UI.md
+    implementation-plan.md
+    notes.md
+```
+
+Rules:
+
+- `<feature-slug>` uses lowercase kebab-case, for example `agent-workflow-builder`.
+- `PRD.md` is generated by `prd-development` and is the source of truth for UI and implementation.
+- `UI.md` is generated by `ui-ux-pro-max` and must live next to the related `PRD.md`.
+- `implementation-plan.md` is created or updated before page implementation or complex coding work.
+- `notes.md` records user confirmations, important tradeoffs, open questions, and change history.
+- If the user does not provide a directory name, generate a slug from the feature name and ask for confirmation.
+
+## Default Workflow
+
+### 1. Product Iteration
+
+Trigger: new feature, feature change, product iteration, user flow, requirement, or business goal.
+
+Protocol:
+
+1. Use `prd-development`.
+2. Extract requirement summary, target users, core scenarios, success criteria, and unknowns.
+3. Propose an output directory such as `PRD/<feature-slug>/`.
+4. Ask for confirmation: `Confirm and I will generate PRD/<feature-slug>/PRD.md.`
+5. After confirmation, generate `PRD.md` and, when useful, `notes.md`.
+6. Stop and wait for confirmation before UI design.
+
+`PRD.md` must include at least:
+
+- Executive Summary
+- Problem Statement
+- Target Users & Personas
+- Solution Overview
+- User Stories & Acceptance Criteria
+- Success Metrics
+- Out of Scope
+- Dependencies & Risks
+- Open Questions
+
+### 2. UI Design
+
+Trigger: design a page, improve UX, generate a UI plan, or derive UI from PRD.
+
+Protocol:
+
+1. Use `ui-ux-pro-max`.
+2. Read the related `PRD.md`; if multiple PRDs match, ask the user to choose.
+3. Summarize page scope, design target, target devices, visual direction, and output path.
+4. Ask for confirmation: `Confirm and I will generate PRD/<feature-slug>/UI.md.`
+5. After confirmation, generate `UI.md`.
+6. Stop and wait for confirmation before implementation.
+
+`UI.md` must include at least:
+
+- Information Architecture
+- User Flow
+- Page/Screen Inventory
+- Design System Tokens
+- Component Inventory
+- Interaction States
+- Responsive Rules
+- Accessibility Requirements
+- Implementation Notes for Next.js + Tailwind + shadcn
+
+### 3. Page Implementation
+
+Trigger: implement pages from PRD/UI, create routes, build screens, wire API/state.
+
+Protocol:
+
+1. Use `next-best-practices`.
+2. Read same-directory `PRD.md` and `UI.md`.
+3. If implementation affects multiple files or API/state/architecture, also use `spec-driven-development`.
+4. Create or update `implementation-plan.md` with routes, components, state, data, storage, and validation.
+5. If user-created information must be stored, check whether PostgreSQL is configured. If not, use `postgresql-backend-storage` and stop for required database confirmation before creating storage.
+6. Implement according to Next.js App Router rules.
+7. Run validation commands.
+
+Implementation rules:
+
+- Keep `app/**/page.tsx` thin; it should mostly import and render a page module.
+- Move substantial page UI into feature modules or clearly named components.
+- Prefer Server Components for read-only server data.
+- Use React Query for browser-side server state that needs cache, refetch, retry, or mutation invalidation.
+- Use Jotai for local UI state, drafts, preferences, and shared UI state.
+- Do not call model providers or database clients from client components.
+
+### 4. Coding
+
+Trigger: code changes, logic changes, state/API wiring, bug fixes, refactoring, or quality improvements.
+
+Protocol:
+
+1. For ordinary implementation, use `frontend-architecture` and `spec-driven-development`.
+2. For behavior-preserving structure changes, use `refactoring-engineer`.
+3. For Next.js code, also apply `next-best-practices`.
+4. If persistent backend data is required, also apply `postgresql-backend-storage`.
+5. Read affected files and callers before editing.
+6. For multi-file or complex changes, write a compact implementation spec and task plan before editing.
+7. Run typecheck, lint, and build after changes.
+8. If the work produced a meaningful project change, update `PRD/project-summary.md`.
+
+### 5. Project Summary
+
+Trigger: the user asks to summarize/update the project, asks for current project context, starts a handoff/new-chat preparation, or any single meaningful change has just been completed.
+
+Protocol:
+
+1. Use `project-summary`.
+2. Read `PRD/project-summary.md` if it exists.
+3. Inspect key touched files when the summary is stale or incomplete.
+4. Create or update `PRD/project-summary.md`.
+5. Prefer updating existing sections over appending duplicate context.
+6. Keep the summary concise, current, and free of secrets.
+
+`PRD/project-summary.md` must maintain these sections:
+
+- Snapshot
+- Product Intent
+- Tech Stack
+- Architecture
+- AI Runtime
+- Data And Persistence
+- Local Skills
+- Current Decisions
+- Recent Changes
+- Validation Baseline
+- Open Questions And Risks
+- New Conversation Bootstrap
+
+Do not update the project summary for trivial read-only Q&A, failed exploratory commands with no resulting decision, or temporary debugging notes.
+
+## PostgreSQL Storage Protocol
+
+Use `postgresql-backend-storage` when user-created or application-created information must persist on the server, including:
+
+- user profiles, settings, projects, documents, records, comments, or workflow state
+- AI runs, prompts, messages, tool calls, memories, provider metadata, or audit logs
+- any CRUD feature that must survive reloads, sessions, or deployment restarts
+
+Before connecting to PostgreSQL or creating schema objects, collect missing required input:
+
+- PostgreSQL host or full `DATABASE_URL`
+- port, if not included in the URL
+- username
+- password
+- target database name, or permission to create one
+- SSL requirement
+- environment target: local, staging, production, or another named environment
+- entities, fields, relationships, constraints, indexes, retention/audit/privacy requirements, and access patterns
+
+Secret handling:
+
+- Store real credentials only in `.env.local` or another uncommitted secret store.
+- Commit only placeholders in `.env.example`.
+- Use `DATABASE_URL` as the default connection variable.
+- Never use `NEXT_PUBLIC_` for database credentials.
+- Do not print full connection strings in logs or final responses.
+- Do not run destructive SQL against production without explicit confirmation.
+
+Schema and application rules:
+
+- Keep database access server-side under `lib/` or a feature-specific server module.
+- Use Node.js runtime for PostgreSQL-backed routes unless the selected driver and provider safely support Edge.
+- Add migrations using the project’s existing tooling when present. If no tooling exists, introduce a small explicit migration setup only when durable schema changes are required.
+- Validate input before writes.
+- Add authorization before exposing user-specific records.
+- Verify connection, schema, and at least one create/read path when CRUD is implemented.
+
+## Architecture Rules
+
+- `app/` holds route entries, layouts, metadata, route handlers, server actions, and other Next.js routing boundaries.
+- `components/` holds shared cross-page UI.
+- `components/ui/` holds only shadcn-style primitives/source components.
+- `components/providers/` holds client providers such as React Query/Jotai providers.
+- `lib/` holds cross-route business logic, configuration, utilities, database access, and AI runtime code.
+- `lib/queries/` holds React Query query keys, fetchers, and related types.
+- `lib/state/` holds Jotai atoms.
+- `lib/ai/` holds AI provider, tool, context, memory, and orchestration code.
+- Avoid client-facing barrel files; import the exact module needed.
+- Keep source files under 300 lines where practical. Split near 250 lines when responsibilities are becoming mixed.
+
+## State Management Rules
+
+- React Query owns browser-side server state: API queries, cache, refetch, retry, and mutation invalidation.
+- Jotai owns local UI state: form drafts, filters, sidebar state, and user preferences.
+- Do not copy server responses into Jotai unless there is an explicit synchronization reason.
+- Do not put local UI state into React Query.
+- Query keys must be stable, explicit, and composable.
+- Fetchers must return typed data and handle error paths.
+
+## UI And Styling Rules
+
+- Prefer Tailwind utilities and shadcn components over new global CSS classes.
+- Use semantic tokens: `bg-background`, `text-muted-foreground`, `border-border`, `bg-primary`.
+- Use `cn()` for conditional reusable component classes.
+- Use `gap-*` for spacing; do not use `space-x-*` or `space-y-*`.
+- Use `size-*` when width and height are equal.
+- Use a consistent icon set; icons inside buttons use `data-icon`.
+- Form controls need labels, error states, and accessible descriptions.
+- Mobile layouts must work at 320px width.
+- Do not nest cards. Use cards only for distinct information blocks or tool panels.
+
+## Next.js Rules
+
+- Default to React Server Components. Add `"use client"` only for hooks, events, browser APIs, or client state.
+- Server Action files should export server actions only.
+- Route Handlers default to `runtime = "nodejs"` unless Edge is explicitly appropriate.
+- Internal navigation uses `next/link`.
+- Images use `next/image`.
+- Avoid data waterfalls; use `Promise.all` or start independent promises early.
+- Implement metadata, not-found, and error boundaries using App Router conventions.
+
+## Change Discipline
+
+- Do not rewrite unrelated files.
+- Do not revert user changes unless explicitly requested.
+- Do not introduce new abstractions without a concrete need.
+- After package or build config changes, run install/build validation.
+- Keep docs, PRDs, UI files, implementation plans, and code aligned.
+- Keep `PRD/project-summary.md` aligned after meaningful project changes.
+
+## Validation Commands
+
+Before normal handoff, run:
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
+
+For runtime UI or interaction changes, also verify locally:
+
+```bash
+npm run dev
+```
+
+If PostgreSQL changes are made, also verify the strongest practical database checks available: connection, migration status, schema existence, and at least one create/read path when CRUD was implemented.
+
+If a command cannot run, state why and what risk remains.
+
+## Handoff Format
+
+Final responses must include:
+
+- Which skill route or workflow stage was used.
+- Key files created or changed.
+- Whether required confirmation gates were satisfied.
+- Validation commands and results.
+- For PostgreSQL work: database/schema/migration changes, environment variables added, and any redacted/manual database steps.
+- For project summary work: sections updated in `PRD/project-summary.md`.
+- Next stage that still requires user confirmation, if any.
